@@ -5,7 +5,7 @@ public class Skill{
     double hours;
 
     public Skill(String name){
-        skill = name;
+        skill  = name;
         hours = 0;
     }
 
