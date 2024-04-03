@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // onWordle(savedInstanceState);
                 String url = "https://www.nytimes.com/games/wordle/index.html";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
@@ -81,7 +84,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    protected void onWordle(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.wordle);
 
+        WebView webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true); // Enable JavaScript if Wordle requires it
+        webView.loadUrl("https://www.nytimes.com/games/wordle/index.html");
+    }
 
     protected void onStats(Bundle savedInstanceState){
         //super.onCreate(savedInstanceState);
