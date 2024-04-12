@@ -17,12 +17,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class MainActivity extends AppCompatActivity {
+
     String name;
     EditText nameInput;
     Button submitButton;
+
+    Bundle savedInstanceState;
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        toHome(savedInstanceState);}
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
 
@@ -144,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
+
     }
 
     protected void onStats(Bundle savedInstanceState){
@@ -170,4 +180,6 @@ public class MainActivity extends AppCompatActivity {
     public String getName(){
         return name;
     }
+
+
 }
