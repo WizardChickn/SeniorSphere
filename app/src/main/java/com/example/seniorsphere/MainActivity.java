@@ -18,7 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity { 
 
     String name;
     EditText nameInput;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     Bundle savedInstanceState;
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { //this only works with the physical tablet
         //super.onBackPressed();
         toHome(savedInstanceState);}
     @Override
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void toHome(Bundle savedInstanceState) {
 
         setContentView(R.layout.homescreen);
-
+//different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +104,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
+   
+    //loads embedded websites
+    //numerous functions to prevent errors with loading in websites
+    //javascript enabled to handle difficulties with websites
+    protected void loadWeb(Bundle savedInstanceState, int web, String url) { 
 
         setContentView(web);
 
         WebView webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true); // Enable JavaScript if Wordle requires it
+        webSettings.setJavaScriptEnabled(true); 
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // Proceed with loading the page despite SSL errors
+                handler.proceed(); // Overrides errors
             }
 
             @Override
