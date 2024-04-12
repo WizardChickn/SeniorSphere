@@ -24,21 +24,21 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button 2"
+            android:text="Connections"
             android:layout_marginBottom="20dp" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button 3"
+            android:text="Sudoku"
             android:layout_marginBottom="20dp" />
 
         <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button 4"
+            android:text="Chess"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>
