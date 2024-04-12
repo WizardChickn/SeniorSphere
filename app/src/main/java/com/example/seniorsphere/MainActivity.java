@@ -1,9 +1,15 @@
 package com.example.seniorsphere;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,12 +17,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class MainActivity extends AppCompatActivity {
+
     String name;
     EditText nameInput;
     Button submitButton;
+
+    Bundle savedInstanceState;
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        toHome(savedInstanceState);}
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
 
@@ -46,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url = "https://www.nytimes.com/games/wordle/index.html";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                loadWeb(savedInstanceState, R.layout.web_loader, url);
+               //onWordle(savedInstanceState);
+                //
+              //  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+             //   startActivity(intent);
             }
         });
 
@@ -56,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url = "https://www.nytimes.com/games/connections";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                loadWeb(savedInstanceState, R.layout.web_loader, url);
+                //
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+               // startActivity(intent);
+
             }
         });
 
@@ -66,8 +87,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url = "https://sudoku.com/";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                loadWeb(savedInstanceState, R.layout.web_loader, url);
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+               // startActivity(intent);
             }
         });
 
@@ -76,12 +98,63 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url = "https://www.chess.com/";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                loadWeb(savedInstanceState, R.layout.web_loader, url);
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                //startActivity(intent);
             }
         });
     }
+    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
 
+        setContentView(web);
+
+        WebView webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true); // Enable JavaScript if Wordle requires it
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setSupportMultipleWindows(false);
+        webView.getSettings().setSupportZoom(false);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                // Handle page start
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                // Handle page finish
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed(); // Proceed with loading the page despite SSL errors
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
+        webView.loadUrl(url);
+        webView.clearView();
+        webView.measure(100, 100);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+
+
+    }
 
     protected void onStats(Bundle savedInstanceState){
         //super.onCreate(savedInstanceState);
@@ -107,4 +180,6 @@ public class MainActivity extends AppCompatActivity {
     public String getName(){
         return name;
     }
+
+
 }
