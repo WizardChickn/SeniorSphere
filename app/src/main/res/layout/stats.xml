@@ -26,6 +26,15 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="198dp"
             tools:layout_editor_absoluteY="362dp" />
+
+        <TextView
+            android:id="@+id/text_view_id3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="198dp"
+            tools:layout_editor_absoluteY="362dp" />
     </LinearLayout>
 
 
