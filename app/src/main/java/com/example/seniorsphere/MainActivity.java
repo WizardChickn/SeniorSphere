@@ -103,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+
+        Button moveToStats = findViewById(R.id.moveToStats);
+        moveToStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStats(savedInstanceState);
+            }
+        });
     }
    
     //loads embedded websites
@@ -178,12 +186,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
     }
     public String getName(){
         return name;
     }
-
 
 }
