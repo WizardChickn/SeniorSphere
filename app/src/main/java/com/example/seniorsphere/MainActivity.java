@@ -103,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+
+        Button moveToStats = findViewById(R.id.moveToStats);
+        moveToStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStats(savedInstanceState);
+            }
+        });
     }
    
     //loads embedded websites
@@ -165,14 +173,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.stats);
 
 
-
-        String displayThis = StatsData.Skill1.getSkill();
+        // displays the variables for the different skills
+        String skillName = StatsData.Skill1.getSkill();
+        double skillHours = StatsData.Skill1.getHours();
         TextView textView = (TextView) findViewById(R.id.text_view_id);
-        textView.setText(displayThis);
+        textView.setText(skillName+": "+skillHours+" hours");
 
-        String displayThis2 = StatsData.Skill2.getSkill();
-        TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
-        textView2.setText(displayThis2);
+        String skillName2 = StatsData.Skill2.getSkill();
+        double skillHours2 = StatsData.Skill2.getHours();
+       TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
+        textView2.setText(skillName2+": "+skillHours2+" hours");
+
+        String skillName3 = StatsData.Skill3.getSkill();
+        double skillHours3 = StatsData.Skill3.getHours();
+        TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
+        textView3.setText(skillName3+": "+skillHours3+" hours");
 
 
     }

@@ -11,7 +11,7 @@ public class StatsData {
     public static Skill Skill1 = new Skill("Memory");
     public static Skill Skill2 = new Skill("Puzzles");
 
-
+    public static Skill Skill3 = new Skill("Logic");
 
 
     public String getSkill(Skill skill) {

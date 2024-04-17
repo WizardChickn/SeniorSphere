@@ -5,42 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Button
-            android:id="@+id/button1"
+        android:layout_height="match_parent" >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wordle"
-            android:layout_marginBottom="20dp" />
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wordle"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connections"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sudoku"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chess"
+                android:layout_marginBottom="20dp" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/moveToStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Connections"
-            android:layout_marginBottom="20dp" />
+            android:layout_alignParentBottom="true"
+            android:text="Stats"
+            android:onClick=""/>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sudoku"
-            android:layout_marginBottom="20dp" />
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chess"
-            android:layout_marginBottom="20dp" />
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
