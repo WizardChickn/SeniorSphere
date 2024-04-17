@@ -25,12 +25,19 @@ public class MainActivity extends AppCompatActivity {
     Button submitButton;
 
     Bundle savedInstanceState;
+
+    Boolean isHome = false;
+
+
     @Override
     public void onBackPressed() { //this only works with the physical tablet
         //super.onBackPressed();
-        toHome(savedInstanceState);}
+        if (isHome) super.onBackPressed();
+        else toHome(savedInstanceState);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void toHome(Bundle savedInstanceState) {
-
+        isHome=false;
         setContentView(R.layout.homescreen);
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
@@ -116,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
     //loads embedded websites
     //numerous functions to prevent errors with loading in websites
     //javascript enabled to handle difficulties with websites
-    protected void loadWeb(Bundle savedInstanceState, int web, String url) { 
-
+    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
+        isHome=false;
         setContentView(web);
 
         WebView webView = findViewById(R.id.webView);
@@ -169,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStats(Bundle savedInstanceState){
+        isHome=false;
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.stats);
 
