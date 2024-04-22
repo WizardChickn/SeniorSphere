@@ -3,7 +3,7 @@ package com.example.seniorsphere;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-
+//contains data on the user's acticity in the app
 public class StatsData {
     ArrayList<Skill> ListOfSkills = new ArrayList<Skill>();
 
