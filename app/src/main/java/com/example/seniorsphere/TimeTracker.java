@@ -4,8 +4,9 @@ import android.os.Looper;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+//keeps track of seconds and if the stopwatch is running
 public class TimeTracker extends AppCompatActivity{
-    private int seconds = 0;
+    private int seconds = 0; 
     private boolean running = false;
     private boolean wasRunning = false;
 
@@ -19,6 +20,8 @@ public class TimeTracker extends AppCompatActivity{
             handler.postDelayed(this, 1000);
         }
     };
+
+    //starts running the stopwatch
     public void startStopwatch() {
         if (!running) {
             running = true;
@@ -26,17 +29,20 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
+    //stops running the stopwatch
     public void stopStopwatch() {
         running = false;
         wasRunning = false;
     }
 
+    //resets the stopwatch
     public void resetStopwatch() {
         running = false;
         wasRunning = false;
         seconds = 0;
     }
 
+    //saves the state of a stopwatch
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -45,6 +51,7 @@ public class TimeTracker extends AppCompatActivity{
         outState.putBoolean("wasRunning", wasRunning);
     }
 
+    //restores the state of an activity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -56,6 +63,7 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
+    //pauses stopwatch
     @Override
     protected void onPause() {
         super.onPause();
@@ -64,6 +72,7 @@ public class TimeTracker extends AppCompatActivity{
     }
 
     @Override
+    //resumes stopwatch
     protected void onResume() {
         super.onResume();
         if (wasRunning) {
