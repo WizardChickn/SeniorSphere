@@ -14,20 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 
 public class MainActivity extends AppCompatActivity { 
 
     String name;
     EditText nameInput;
     Button submitButton;
-
     Bundle savedInstanceState;
-
     Boolean isHome = false;
-
 
     @Override
     public void onBackPressed() { //this only works with the physical tablet
@@ -35,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         if (isHome) super.onBackPressed();
         else toHome(savedInstanceState);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         isHome=true;
@@ -56,12 +52,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     protected void toHome(Bundle savedInstanceState) {
         isHome=false;
         setContentView(R.layout.homescreen);
+
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -171,15 +165,12 @@ public class MainActivity extends AppCompatActivity {
         webView.measure(100, 100);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
-
-
     }
 
     protected void onStats(Bundle savedInstanceState){
         isHome=false;
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.stats);
-
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
@@ -197,9 +188,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+skillHours3+" hours");
 
-
     }
-
 
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
@@ -207,6 +196,5 @@ public class MainActivity extends AppCompatActivity {
     public String getName(){
         return name;
     }
-
 
 }
