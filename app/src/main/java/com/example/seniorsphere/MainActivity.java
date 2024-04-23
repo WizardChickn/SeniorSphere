@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity { 
 
-    String name;
+    String name = new String();
     EditText nameInput;
     Button submitButton;
     Bundle savedInstanceState;
@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_screen);
+        if (name.isEmpty()){
+        setContentView(R.layout.welcome_screen);}
+        else toHome(savedInstanceState);
 
         nameInput = (EditText) findViewById(R.id.nameInput);
 
