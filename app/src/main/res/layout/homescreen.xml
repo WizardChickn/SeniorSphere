@@ -66,14 +66,21 @@
             android:layout_marginBottom="10dp" />
 
         </LinearLayout>
+        <Button
+            android:id="@+id/moveToSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Settings"
+            />
 
         <Button
             android:id="@+id/moveToStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Stats"
-            />
+            android:layout_marginBottom="56dp"
+            android:text="Stats" />
 
     </RelativeLayout>
 
