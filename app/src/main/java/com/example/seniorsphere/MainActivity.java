@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -23,20 +22,27 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity { 
 
-    String name;
+    String name = new String();
     EditText nameInput;
     Button submitButton;
-
     Bundle savedInstanceState;
+    Boolean isHome = false;
+
     @Override
     public void onBackPressed() { //this only works with the physical tablet
         //super.onBackPressed();
-        toHome(savedInstanceState);}
+        if (isHome) super.onBackPressed();
+        else toHome(savedInstanceState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_screen);
+        if (name.isEmpty()){
+        setContentView(R.layout.welcome_screen);}
+        else toHome(savedInstanceState);
 
         nameInput = (EditText) findViewById(R.id.nameInput);
 
@@ -52,11 +58,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     protected void toHome(Bundle savedInstanceState) {
-
+        isHome=false;
         setContentView(R.layout.homescreen);
 
         TextView message= (TextView) findViewById(R.id.motivationalMessage);
@@ -123,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
     //loads embedded websites
     //numerous functions to prevent errors with loading in websites
     //javascript enabled to handle difficulties with websites
-    protected void loadWeb(Bundle savedInstanceState, int web, String url) { 
-
+    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
+        isHome=false;
         setContentView(web);
 
         WebView webView = findViewById(R.id.webView);
@@ -196,19 +199,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStats(Bundle savedInstanceState){
+        isHome=false;
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.stats);
 
-
-
-        String displayThis = StatsData.Skill1.getSkill();
+        // displays the variables for the different skills
+        String skillName = StatsData.Skill1.getSkill();
+        double skillHours = StatsData.Skill1.getHours();
         TextView textView = (TextView) findViewById(R.id.text_view_id);
-        textView.setText(displayThis);
+        textView.setText(skillName+": "+skillHours+" hours");
 
-        String displayThis2 = StatsData.Skill2.getSkill();
-        TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
-        textView2.setText(displayThis2);
+        String skillName2 = StatsData.Skill2.getSkill();
+        double skillHours2 = StatsData.Skill2.getHours();
+       TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
+        textView2.setText(skillName2+": "+skillHours2+" hours");
 
+        String skillName3 = StatsData.Skill3.getSkill();
+        double skillHours3 = StatsData.Skill3.getHours();
+        TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
+        textView3.setText(skillName3+": "+skillHours3+" hours");
 
     }
 
@@ -220,5 +229,6 @@ public class MainActivity extends AppCompatActivity {
     public String getName(){
         return name;
     }
+
 
 }
