@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity { 
 
@@ -55,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
     protected void toHome(Bundle savedInstanceState) {
 
         setContentView(R.layout.homescreen);
+
+        TextView message= (TextView) findViewById(R.id.motivationalMessage);
+        message.setText(makeMessage());
+
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +173,26 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setLoadWithOverviewMode(true);
 
 
+    }
+
+    public String makeMessage() {
+        //make an arraylist of inpirational and positive messages
+        ArrayList<String> messages = new ArrayList<String>();
+        messages.add("Believe you can and you're halfway there.");
+        messages.add("The only way to do great work is to love what you do.");
+        messages.add("Success is not final, failure is not fatal: It is the courage to continue that counts.");
+        messages.add("The future belongs to those who believe in the beauty of their dreams.");
+        messages.add("Your limitation—it's only your imagination.");
+        messages.add("The best time to plant a tree was 20 years ago. The second best time is now.");
+        messages.add("Quit,don't quit... noodles, don't noodles");
+        messages.add("Every accomplishment starts with the decision to try.");
+
+        //create a random thing
+        Random hehe = new Random();
+        //generate random number between 0 and arraylist.length - 1
+        int index = hehe.nextInt(8);
+
+        return messages.get(index);
     }
 
     protected void onStats(Bundle savedInstanceState){
