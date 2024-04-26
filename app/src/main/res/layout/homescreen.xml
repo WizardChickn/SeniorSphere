@@ -25,6 +25,8 @@
             android:id="@+id/motivationalMessage"
             android:textSize="20sp"
             android:gravity="center"
+            android:textStyle = "bold"
+            android:textColor="#800080"
             />
 
         <Button
