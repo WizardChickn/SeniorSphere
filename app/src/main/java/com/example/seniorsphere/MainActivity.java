@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity { 
+public class MainActivity extends AppCompatActivity {
 
     String name = new String();
     EditText nameInput;
@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         isHome=true;
 
+
+
         if (name.isEmpty()){
             setContentView(R.layout.welcome_screen);
 
@@ -56,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     name = nameInput.getText().toString();
-                    editor.putString("username", "Welcome "+name);
+                    editor.putString("username", name);
+                    editor.putFloat("time1", 0);
+                    editor.putFloat("time2", 0);
+                    editor.putFloat("time3", 0);
                     editor.commit();
 
                     toHome(savedInstanceState);
@@ -72,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         isHome=false;
         setContentView(R.layout.homescreen);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-        showToast(sharedPreferences.getString("username", "defaultUsername"));
+        showToast("Welcome "+sharedPreferences.getString("username", "defaultUsername"));
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
