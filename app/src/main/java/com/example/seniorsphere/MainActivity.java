@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (name.isEmpty()){
-        setContentView(R.layout.welcome_screen);}
+        setContentView(R.layout.welcome_screen);
 
 
         nameInput = (EditText) findViewById(R.id.nameInput);
