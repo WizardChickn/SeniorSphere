@@ -1,6 +1,7 @@
 package com.example.seniorsphere;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class MainActivity extends AppCompatActivity { 
+public class MainActivity extends AppCompatActivity {
 
     String name = new String();
     EditText nameInput;
@@ -37,25 +38,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
+        onStart(savedInstanceState);
+    }
+    protected void onStart(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        name = sharedPreferences.getString("username", "defaultUsername");
+
+        isHome=true;
+
+
+
         if (name.isEmpty()){
         setContentView(R.layout.welcome_screen);}
-        else toHome(savedInstanceState);
+
 
         nameInput = (EditText) findViewById(R.id.nameInput);
 
-        submitButton = (Button) findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                name = nameInput.getText().toString();
-                showToast(name);
-                toHome(savedInstanceState);
+            submitButton = (Button) findViewById(R.id.submitButton);
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    name = nameInput.getText().toString();
+                    editor.putString("username", name);
+                    editor.putFloat("time1", 0);
+                    editor.putFloat("time2", 0);
+                    editor.putFloat("time3", 0);
+                    editor.commit();
 
-            }
-        });
+                    toHome(savedInstanceState);
+
+                }
+            });}
+        else toHome(savedInstanceState);
+
     }
 
     protected void toHome(Bundle savedInstanceState) {
@@ -65,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         TextView message= (TextView) findViewById(R.id.motivationalMessage);
         message.setText(makeMessage());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        showToast("Welcome "+sharedPreferences.getString("username", "defaultUsername"));
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +139,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onStats(savedInstanceState);
+            }
+        });
+
+        Button moveToSettings = findViewById(R.id.moveToSettings);
+        moveToSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSettings(savedInstanceState);
             }
         });
     }
@@ -219,6 +247,29 @@ public class MainActivity extends AppCompatActivity {
         TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+skillHours3+" hours");
 
+    }
+
+
+
+    public void onSettings(Bundle savedInstanceState){
+        isHome=false;
+        //super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+
+        Button reset = findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("username", "");
+                editor.commit();
+                onStart(savedInstanceState);
+            }
+        });
     }
 
 
