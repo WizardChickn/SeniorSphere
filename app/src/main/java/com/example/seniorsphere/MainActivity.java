@@ -14,23 +14,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-
-public class MainActivity extends AppCompatActivity { 
+public class MainActivity extends AppCompatActivity {
 
     String name;
     EditText nameInput;
     Button submitButton;
-
     Bundle savedInstanceState;
+    Boolean isHome = false;
+
+    TimeTracker stratstopwatch = new TimeTracker();
+    TimeTracker logicstopwatch = new TimeTracker();
+    TimeTracker patternstopwatch = new TimeTracker();
+
     @Override
     public void onBackPressed() { //this only works with the physical tablet
         //super.onBackPressed();
-        toHome(savedInstanceState);}
+        if (isHome) super.onBackPressed();
+        else {
+            stratstopwatch.stopStopwatch();
+            logicstopwatch.stopStopwatch();
+            patternstopwatch.stopStopwatch();
+            toHome(savedInstanceState);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
@@ -38,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         nameInput = (EditText) findViewById(R.id.nameInput);
 
         submitButton = (Button) findViewById(R.id.submitButton);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,23 +62,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     protected void toHome(Bundle savedInstanceState) {
-
+        isHome=false;
         setContentView(R.layout.homescreen);
+
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logicstopwatch.resetStopwatch();
+                logicstopwatch.startStopwatch();
                 String url = "https://www.nytimes.com/games/wordle/index.html";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-               //onWordle(savedInstanceState);
-                //
-              //  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-             //   startActivity(intent);
             }
         });
 
@@ -73,12 +82,10 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                patternstopwatch.resetStopwatch();
+                patternstopwatch.startStopwatch();
                 String url = "https://www.nytimes.com/games/connections";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-               // startActivity(intent);
-
             }
         });
 
@@ -86,35 +93,44 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logicstopwatch.resetStopwatch();
+                logicstopwatch.startStopwatch();
                 String url = "https://sudoku.com/";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-               // startActivity(intent);
             }
         });
 
         Button button4 = findViewById(R.id.button4);
         button4.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                stratstopwatch.resetStopwatch();
+                stratstopwatch.startStopwatch();
                 String url = "https://www.chess.com/";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                //startActivity(intent);
+            }
+        });
+
+        Button moveToStats = findViewById(R.id.moveToStats);
+        moveToStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStats(savedInstanceState);
             }
         });
     }
-   
+
     //loads embedded websites
     //numerous functions to prevent errors with loading in websites
     //javascript enabled to handle difficulties with websites
-    protected void loadWeb(Bundle savedInstanceState, int web, String url) { 
-
+    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
+        isHome=false;
         setContentView(web);
 
         WebView webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true); 
+        webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -156,27 +172,39 @@ public class MainActivity extends AppCompatActivity {
         webView.measure(100, 100);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
-
-
     }
 
     protected void onStats(Bundle savedInstanceState){
+        isHome=false;
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.stats);
 
 
+        TextView minuteView = findViewById(R.id.minutes_view);
 
-        String displayThis = StatsData.Skill1.getSkill();
-        TextView textView = (TextView) findViewById(R.id.text_view_id);
-        textView.setText(displayThis);
+        int stratminutes = stratstopwatch.getMinutes();
+        int logicminutes = logicstopwatch.getMinutes();
+        int patternminutes = patternstopwatch.getMinutes();
 
-        String displayThis2 = StatsData.Skill2.getSkill();
+        minuteView.setText(String.valueOf(stratminutes));
+
+        // displays the variables for the different skills
+        String skillName = StatsData.Skill1.getSkill();
+        double skillHours = StatsData.Skill1.getHours();
+        TextView textView = (TextView) findViewById(R.id.minutes_view);
+        textView.setText(skillName+": "+stratminutes+ " minutes");
+
+        String skillName2 = StatsData.Skill2.getSkill();
+        double skillHours2 = StatsData.Skill2.getHours();
         TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
-        textView2.setText(displayThis2);
+        textView2.setText(skillName2+": "+logicminutes+ " minutes");
 
+        String skillName3 = StatsData.Skill3.getSkill();
+        double skillHours3 = StatsData.Skill3.getHours();
+        TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
+        textView3.setText(skillName3+": "+patternminutes+ " minutes");
 
     }
-
 
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
@@ -184,6 +212,5 @@ public class MainActivity extends AppCompatActivity {
     public String getName(){
         return name;
     }
-
 
 }
