@@ -217,11 +217,12 @@ public class MainActivity extends AppCompatActivity {
         messages.add("The best time to plant a tree was 20 years ago. The second best time is now.");
         messages.add("Quit,don't quit... noodles, don't noodles");
         messages.add("Every accomplishment starts with the decision to try.");
+        messages.add("Yesterday is history, tomorrow is a mystery, today is a gift.");
 
         //create a random thing
         Random hehe = new Random();
         //generate random number between 0 and arraylist.length - 1
-        int index = hehe.nextInt(8);
+        int index = hehe.nextInt(9);
 
         return messages.get(index);
     }
