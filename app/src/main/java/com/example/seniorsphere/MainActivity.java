@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String makeMessage() {
-        //make an arraylist of inpirational and positive messages
+        //make an arraylist of inspirational and positive messages
         ArrayList<String> messages = new ArrayList<String>();
         messages.add("Believe you can and you're halfway there.");
         messages.add("The only way to do great work is to love what you do.");
