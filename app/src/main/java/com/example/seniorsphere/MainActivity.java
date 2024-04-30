@@ -1,6 +1,7 @@
 package com.example.seniorsphere;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -16,17 +17,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+
+public class MainActivity extends AppCompatActivity {
 public class MainActivity extends AppCompatActivity {
 
-    String name;
+    String name = new String();
     EditText nameInput;
     Button submitButton;
+
     Bundle savedInstanceState;
-    Boolean isHome = false;
 
     TimeTracker stratstopwatch = new TimeTracker();
     TimeTracker logicstopwatch = new TimeTracker();
     TimeTracker patternstopwatch = new TimeTracker();
+
+    Boolean isHome = false;
 
     @Override
     public void onBackPressed() { //this only works with the physical tablet
@@ -45,26 +53,51 @@ public class MainActivity extends AppCompatActivity {
         isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
+        onStart(savedInstanceState);
+    }
+    protected void onStart(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        name = sharedPreferences.getString("username", "defaultUsername");
+
+        isHome=true;
+
+
+
+        if (name.isEmpty()){
         setContentView(R.layout.welcome_screen);
+
 
         nameInput = (EditText) findViewById(R.id.nameInput);
 
-        submitButton = (Button) findViewById(R.id.submitButton);
+            submitButton = (Button) findViewById(R.id.submitButton);
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    name = nameInput.getText().toString();
+                    editor.putString("username", name);
+                    editor.putFloat("time1", 0);
+                    editor.putFloat("time2", 0);
+                    editor.putFloat("time3", 0);
+                    editor.commit();
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                name = nameInput.getText().toString();
-                showToast(name);
-                toHome(savedInstanceState);
+                    toHome(savedInstanceState);
 
-            }
-        });
+                }
+            });}
+        else toHome(savedInstanceState);
+
     }
 
     protected void toHome(Bundle savedInstanceState) {
         isHome=false;
         setContentView(R.layout.homescreen);
+
+        TextView message= (TextView) findViewById(R.id.motivationalMessage);
+        message.setText(makeMessage());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        showToast("Welcome "+sharedPreferences.getString("username", "defaultUsername"));
 
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
@@ -109,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 stratstopwatch.startStopwatch();
                 String url = "https://www.chess.com/";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                //startActivity(intent);
             }
         });
 
@@ -119,8 +154,16 @@ public class MainActivity extends AppCompatActivity {
                 onStats(savedInstanceState);
             }
         });
-    }
 
+        Button moveToSettings = findViewById(R.id.moveToSettings);
+        moveToSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSettings(savedInstanceState);
+            }
+        });
+    }
+   
     //loads embedded websites
     //numerous functions to prevent errors with loading in websites
     //javascript enabled to handle difficulties with websites
@@ -172,6 +215,29 @@ public class MainActivity extends AppCompatActivity {
         webView.measure(100, 100);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
+
+
+    }
+
+    public String makeMessage() {
+        //make an arraylist of inpirational and positive messages
+        ArrayList<String> messages = new ArrayList<String>();
+        messages.add("Believe you can and you're halfway there.");
+        messages.add("The only way to do great work is to love what you do.");
+        messages.add("Success is not final, failure is not fatal: It is the courage to continue that counts.");
+        messages.add("The future belongs to those who believe in the beauty of their dreams.");
+        messages.add("Your limitation—it's only your imagination.");
+        messages.add("The best time to plant a tree was 20 years ago. The second best time is now.");
+        messages.add("Quit,don't quit... noodles, don't noodles");
+        messages.add("Every accomplishment starts with the decision to try.");
+        messages.add("Yesterday is history, tomorrow is a mystery, today is a gift.");
+
+        //create a random thing
+        Random hehe = new Random();
+        //generate random number between 0 and arraylist.length - 1
+        int index = hehe.nextInt(9);
+
+        return messages.get(index);
     }
 
     protected void onStats(Bundle savedInstanceState){
@@ -203,9 +269,30 @@ public class MainActivity extends AppCompatActivity {
         double skillHours3 = StatsData.Skill3.getHours();
         TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
     }
+    public void onSettings(Bundle savedInstanceState){
+        isHome=false;
+        //super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+
+        Button reset = findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("username", "");
+                editor.commit();
+                onStart(savedInstanceState);
+            }
+        });
+    }
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
     }

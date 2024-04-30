@@ -16,6 +16,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/motivationalMessage"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle = "bold"
+            android:textColor="#800080"
+            />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wordle"
+            android:textSize="20sp"
+            android:padding="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
             <Button
                 android:id="@+id/button1"
                 android:layout_width="match_parent"
@@ -65,17 +88,24 @@
                 android:layout_marginBottom="10dp" />
 
         </LinearLayout>
+        <Button
+            android:id="@+id/moveToSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Settings"
+            />
 
         <Button
             android:id="@+id/moveToStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Stats"
-            android:textSize="15sp"
-            android:padding="15dp"
-            android:onClick=""/>
+            android:layout_marginBottom="56dp"
+            android:text="Stats" />
 
     </RelativeLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

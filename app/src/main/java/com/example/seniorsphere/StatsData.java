@@ -1,5 +1,6 @@
 package com.example.seniorsphere;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import java.util.ArrayList;
 //contains data on the user's activity in the app
