@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //keeps track of seconds and if the stopwatch is running
 public class TimeTracker extends AppCompatActivity{
-    private int seconds = 0; 
+    private int seconds = 0;
     private boolean running = false;
     private boolean wasRunning = false;
 
@@ -78,6 +78,16 @@ public class TimeTracker extends AppCompatActivity{
         if (wasRunning) {
             startStopwatch();
         }
+    }
+
+    public int getMinutes(){
+        int minutes = seconds/60;
+        return minutes;
+    }
+
+    public int getHours(){
+        int hours = seconds/3600;
+        return hours;
     }
 
 }

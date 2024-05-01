@@ -26,18 +26,30 @@ public class MainActivity extends AppCompatActivity {
     String name = new String();
     EditText nameInput;
     Button submitButton;
+
     Bundle savedInstanceState;
+
+    TimeTracker stratstopwatch = new TimeTracker();
+    TimeTracker logicstopwatch = new TimeTracker();
+    TimeTracker patternstopwatch = new TimeTracker();
+
     Boolean isHome = false;
 
     @Override
     public void onBackPressed() { //this only works with the physical tablet
         //super.onBackPressed();
         if (isHome) super.onBackPressed();
-        else toHome(savedInstanceState);
+        else {
+            stratstopwatch.stopStopwatch();
+            logicstopwatch.stopStopwatch();
+            patternstopwatch.stopStopwatch();
+            toHome(savedInstanceState);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        isHome=true;
         this.savedInstanceState=savedInstanceState;
         super.onCreate(savedInstanceState);
         onStart(savedInstanceState);
@@ -85,17 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         showToast("Welcome "+sharedPreferences.getString("username", "defaultUsername"));
+
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logicstopwatch.resetStopwatch();
+                logicstopwatch.startStopwatch();
                 String url = "https://www.nytimes.com/games/wordle/index.html";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-               //onWordle(savedInstanceState);
-                //
-              //  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-             //   startActivity(intent);
             }
         });
 
@@ -103,12 +114,10 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                patternstopwatch.resetStopwatch();
+                patternstopwatch.startStopwatch();
                 String url = "https://www.nytimes.com/games/connections";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-               // startActivity(intent);
-
             }
         });
 
@@ -116,17 +125,20 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logicstopwatch.resetStopwatch();
+                logicstopwatch.startStopwatch();
                 String url = "https://sudoku.com/";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-               // startActivity(intent);
             }
         });
 
         Button button4 = findViewById(R.id.button4);
         button4.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                stratstopwatch.resetStopwatch();
+                stratstopwatch.startStopwatch();
                 String url = "https://www.chess.com/";
                 loadWeb(savedInstanceState, R.layout.web_loader, url);
                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -160,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true); 
+        webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -232,26 +244,34 @@ public class MainActivity extends AppCompatActivity {
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.stats);
 
+
+        TextView minuteView = findViewById(R.id.minutes_view);
+
+        int stratminutes = stratstopwatch.getMinutes();
+        int logicminutes = logicstopwatch.getMinutes();
+        int patternminutes = patternstopwatch.getMinutes();
+
+        minuteView.setText(String.valueOf(stratminutes));
+
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
         double skillHours = StatsData.Skill1.getHours();
-        TextView textView = (TextView) findViewById(R.id.text_view_id);
-        textView.setText(skillName+": "+skillHours+" hours");
+        TextView textView = (TextView) findViewById(R.id.minutes_view);
+        textView.setText(skillName+": "+stratminutes+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
         double skillHours2 = StatsData.Skill2.getHours();
-       TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
-        textView2.setText(skillName2+": "+skillHours2+" hours");
+        TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
+        textView2.setText(skillName2+": "+logicminutes+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
         double skillHours3 = StatsData.Skill3.getHours();
         TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
-        textView3.setText(skillName3+": "+skillHours3+" hours");
+        textView3.setText(skillName3+": "+patternminutes+ " minutes");
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
     }
-
-
-
     public void onSettings(Bundle savedInstanceState){
         isHome=false;
         //super.onCreate(savedInstanceState);
@@ -272,15 +292,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
     }
     public String getName(){
         return name;
     }
-
 
 }
