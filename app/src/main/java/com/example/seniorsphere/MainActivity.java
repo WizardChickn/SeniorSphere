@@ -22,7 +22,6 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
-public class MainActivity extends AppCompatActivity {
 
     String name = new String();
     EditText nameInput;
