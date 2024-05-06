@@ -36,14 +36,26 @@ public class MainActivity extends AppCompatActivity {
     Boolean isHome = false;
 
     @Override
-    public void onBackPressed() { //this only works with the physical tablet
+    public void onBackPressed() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         //super.onBackPressed();
         if (isHome) super.onBackPressed();
         else {
+
             stratstopwatch.stopStopwatch();
             logicstopwatch.stopStopwatch();
             patternstopwatch.stopStopwatch();
+            //showToast(""+stratstopwatch.getMinutes());
+            //showToast(""+logicstopwatch.getMinutes());
+            //showToast(""+patternstopwatch.getMinutes());
+
+            editor.putFloat("time1", sharedPreferences.getFloat("time1", 0) + stratstopwatch.getMinutes());
+            editor.putFloat("time2", sharedPreferences.getFloat("time2", 0)+ logicstopwatch.getMinutes());
+            editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getMinutes());
+            //showToast("#"+sharedPreferences.getFloat("time1", 0));
             toHome(savedInstanceState);
+            editor.commit();
         }
     }
 
@@ -242,34 +254,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onStats(Bundle savedInstanceState){
         isHome=false;
         //super.onCreate(savedInstanceState);
-        setContentView(R.layout.stats);
 
+        setContentView(R.layout.stats);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         TextView minuteView = findViewById(R.id.minutes_view);
 
-        int stratminutes = stratstopwatch.getMinutes();
-        int logicminutes = logicstopwatch.getMinutes();
-        int patternminutes = patternstopwatch.getMinutes();
+        float stratminutes =  sharedPreferences.getFloat("time1", 0);//stratstopwatch.getMinutes();
+        float logicminutes =  sharedPreferences.getFloat("time2", 0);//logicstopwatch.getMinutes();
+        float patternminutes = sharedPreferences.getFloat("time3", 0);//patternstopwatch.getMinutes();
+
 
         minuteView.setText(String.valueOf(stratminutes));
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
-        double skillHours = StatsData.Skill1.getHours();
         TextView textView = (TextView) findViewById(R.id.minutes_view);
         textView.setText(skillName+": "+stratminutes+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
-        double skillHours2 = StatsData.Skill2.getHours();
         TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
         textView2.setText(skillName2+": "+logicminutes+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
-        double skillHours3 = StatsData.Skill3.getHours();
         TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
     }
     public void onSettings(Bundle savedInstanceState){
