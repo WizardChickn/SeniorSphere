@@ -92,4 +92,8 @@ public class TimeTracker extends AppCompatActivity{
         return hours;
     }
 
+    public boolean getRunning(){
+        return running;
+    }
+
 }

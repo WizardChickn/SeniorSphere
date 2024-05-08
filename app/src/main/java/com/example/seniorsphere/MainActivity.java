@@ -39,20 +39,33 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         //super.onBackPressed();
         if (isHome) super.onBackPressed();
+
         else {
 
-            stratstopwatch.stopStopwatch();
-            logicstopwatch.stopStopwatch();
-            patternstopwatch.stopStopwatch();
+            if (stratstopwatch.getRunning()){
+                stratstopwatch.stopStopwatch();
+                editor.putFloat("time1", sharedPreferences.getFloat("time1", 0) + stratstopwatch.getMinutes());
+            }
+            if (logicstopwatch.getRunning()){
+                logicstopwatch.stopStopwatch();
+                editor.putFloat("time2", sharedPreferences.getFloat("time2", 0)+ logicstopwatch.getMinutes());
+            }
+
+            if (patternstopwatch.getRunning()){
+                patternstopwatch.stopStopwatch();
+                editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getMinutes());
+            }
+
             //showToast(""+stratstopwatch.getMinutes());
             //showToast(""+logicstopwatch.getMinutes());
             //showToast(""+patternstopwatch.getMinutes());
 
-            editor.putFloat("time1", sharedPreferences.getFloat("time1", 0) + stratstopwatch.getMinutes());
-            editor.putFloat("time2", sharedPreferences.getFloat("time2", 0)+ logicstopwatch.getMinutes());
-            editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getMinutes());
+
+
+
             //showToast("#"+sharedPreferences.getFloat("time1", 0));
             toHome(savedInstanceState);
             editor.commit();
