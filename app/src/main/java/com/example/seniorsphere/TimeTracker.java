@@ -1,7 +1,9 @@
 package com.example.seniorsphere;
 import android.os.Handler;
-import android.os.Looper;
+
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 //keeps track of seconds and if the stopwatch is running
@@ -10,8 +12,8 @@ public class TimeTracker extends AppCompatActivity{
     private boolean running = false;
     private boolean wasRunning = false;
 
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (running) {
@@ -46,7 +48,7 @@ public class TimeTracker extends AppCompatActivity{
 
     //saves the state of a stopwatch
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("seconds", seconds);
         outState.putBoolean("running", running);
@@ -55,7 +57,7 @@ public class TimeTracker extends AppCompatActivity{
 
     //restores the state of an activity
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         seconds = savedInstanceState.getInt("seconds");
         running = savedInstanceState.getBoolean("running");
@@ -84,14 +86,14 @@ public class TimeTracker extends AppCompatActivity{
 
     //returns the number of minutes that are currently tracked by the stopwatch
     public int getMinutes(){
-        int minutes = seconds/60;
-        return minutes;
+
+        return seconds/60;
     }
 
     //returns the number of hours that are currently tracked by the stopwatch
     public int getHours(){
-        int hours = seconds/3600;
-        return hours;
+
+        return seconds/3600;
     }
 
     //returns if the stopwatch is running or not

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Reset Data"
+        android:text="@string/reset_data"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="16dp"
         tools:ignore="MissingConstraints" />

@@ -1,9 +1,9 @@
 package com.example.seniorsphere;
 
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.webkit.SslErrorHandler;
@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             toHome(savedInstanceState);
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putFloat("time1", 0);
                 editor.putFloat("time2", 0);
                 editor.putFloat("time3", 0);
-                editor.commit();
+                editor.apply();
 
                 toHome(savedInstanceState);
 
@@ -161,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
         WebView webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -228,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         return messages.get(index);
     }
 
+    @SuppressLint("SetTextI18n")
     protected void onStats(){
         isHome=false;
         //super.onCreate(savedInstanceState);
@@ -244,11 +243,11 @@ public class MainActivity extends AppCompatActivity {
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
-        TextView textView = (TextView) findViewById(R.id.minutes_view);
+        TextView textView = findViewById(R.id.minutes_view);
         textView.setText(skillName+": "+stratminutes+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
-        TextView textView2 = (TextView) findViewById(R.id.text_view_id2);
+        TextView textView2 = findViewById(R.id.text_view_id2);
         textView2.setText(skillName2+": "+logicminutes+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
@@ -270,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         Button reset = findViewById(R.id.reset);
         reset.setOnClickListener(v -> {
             editor.putString("username", "");
-            editor.commit();
+            editor.apply();
             onStart(savedInstanceState);
         });
     }
