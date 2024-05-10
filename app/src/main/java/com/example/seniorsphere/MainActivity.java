@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         messages.add("The future belongs to those who believe in the beauty of their dreams.");
         messages.add("Your limitation—it's only your imagination.");
         messages.add("The best time to plant a tree was 20 years ago. The second best time is now.");
-        messages.add("Quit,don't quit... noodles, don't noodles");
+        messages.add("Quit, don't quit... noodles, don't noodles");
         messages.add("Every accomplishment starts with the decision to try.");
         messages.add("Yesterday is history, tomorrow is a mystery, today is a gift.");
 
@@ -254,9 +254,8 @@ public class MainActivity extends AppCompatActivity {
         String skillName3 = StatsData.Skill3.getSkill();
         TextView textView3 = findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
-
-
     }
+    
     public void onSettings(Bundle savedInstanceState){
         isHome=false;
         //super.onCreate(savedInstanceState);
@@ -264,8 +263,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
 
         Button reset = findViewById(R.id.reset);
         reset.setOnClickListener(v -> {
