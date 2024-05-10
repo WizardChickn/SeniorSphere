@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        //super.onBackPressed();
         if (isHome) super.onBackPressed();
 
         else {
@@ -70,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    *creates the user interface when the app is loaded
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         isHome=true;
@@ -194,23 +196,33 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setAllowFileAccess(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            /*
+            *handles errors with opening the url
+            */
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                // Handle page start
             }
 
             @Override
+            /*
+            *handles errors with closing the url
+            */
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                // Handle page finish
             }
 
             @Override
+            /*
+            *overrides any errors that would come up with implementing a website into the embed frame
+            */
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // Overrides errors
+                handler.proceed(); 
             }
 
             @Override
+            /*
+            *overrides if a url is not working
+            */
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
@@ -254,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
     */
     protected void onStats(){
         isHome=false;
-        //super.onCreate(savedInstanceState);
 
         setContentView(R.layout.stats);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -276,10 +287,13 @@ public class MainActivity extends AppCompatActivity {
         TextView textView3 = findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
     }
-    
+
+    /*
+    *goes to the settings page
+    *user data can be reset
+    */
     public void onSettings(Bundle savedInstanceState){
         isHome=false;
-        //super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -292,6 +306,10 @@ public class MainActivity extends AppCompatActivity {
             onStart(savedInstanceState);
         });
     }
+    
+    /*
+    *shows popup message
+    */
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
     }
