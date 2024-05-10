@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+/*
+* measures time using a stopwatch
+*/
 
 public class TimeTracker extends AppCompatActivity{
     private int seconds = 0;
