@@ -1,12 +1,11 @@
 package com.example.seniorsphere;
 
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
+
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -23,7 +22,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    String name = new String();
+    String name;
     EditText nameInput;
     Button submitButton;
 
@@ -59,14 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getMinutes());
             }
 
-            //showToast(""+stratstopwatch.getMinutes());
-            //showToast(""+logicstopwatch.getMinutes());
-            //showToast(""+patternstopwatch.getMinutes());
 
-
-
-
-            //showToast("#"+sharedPreferences.getFloat("time1", 0));
             toHome(savedInstanceState);
             editor.commit();
         }
@@ -89,25 +81,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (name.isEmpty()){
-        setContentView(R.layout.welcome_screen);
+            setContentView(R.layout.welcome_screen);
 
 
-        nameInput = (EditText) findViewById(R.id.nameInput);
+            nameInput = findViewById(R.id.nameInput);
 
-            submitButton = (Button) findViewById(R.id.submitButton);
-            submitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    name = nameInput.getText().toString();
-                    editor.putString("username", name);
-                    editor.putFloat("time1", 0);
-                    editor.putFloat("time2", 0);
-                    editor.putFloat("time3", 0);
-                    editor.commit();
+            submitButton = findViewById(R.id.submitButton);
+            submitButton.setOnClickListener(v -> {
+                name = nameInput.getText().toString();
+                editor.putString("username", name);
+                editor.putFloat("time1", 0);
+                editor.putFloat("time2", 0);
+                editor.putFloat("time3", 0);
+                editor.commit();
 
-                    toHome(savedInstanceState);
+                toHome(savedInstanceState);
 
-                }
             });}
         else toHome(savedInstanceState);
 
@@ -117,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         isHome=false;
         setContentView(R.layout.homescreen);
 
-        TextView message= (TextView) findViewById(R.id.motivationalMessage);
+        TextView message= findViewById(R.id.motivationalMessage);
         message.setText(makeMessage());
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
@@ -125,73 +114,48 @@ public class MainActivity extends AppCompatActivity {
 
 //different buttons lead to different pages
         Button button1 = findViewById(R.id.button1);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logicstopwatch.resetStopwatch();
-                logicstopwatch.startStopwatch();
-                String url = "https://www.nytimes.com/games/wordle/index.html";
-                loadWeb(savedInstanceState, R.layout.web_loader, url);
-            }
+        button1.setOnClickListener(v -> {
+            logicstopwatch.resetStopwatch();
+            logicstopwatch.startStopwatch();
+            String url = "https://www.nytimes.com/games/wordle/index.html";
+            loadWeb(R.layout.web_loader, url);
         });
 
         Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                patternstopwatch.resetStopwatch();
-                patternstopwatch.startStopwatch();
-                String url = "https://www.nytimes.com/games/connections";
-                loadWeb(savedInstanceState, R.layout.web_loader, url);
-            }
+        button2.setOnClickListener(v -> {
+            patternstopwatch.resetStopwatch();
+            patternstopwatch.startStopwatch();
+            String url = "https://www.nytimes.com/games/connections";
+            loadWeb(R.layout.web_loader, url);
         });
 
         Button button3 = findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logicstopwatch.resetStopwatch();
-                logicstopwatch.startStopwatch();
-                String url = "https://sudoku.com/";
-                loadWeb(savedInstanceState, R.layout.web_loader, url);
-            }
+        button3.setOnClickListener(v -> {
+            logicstopwatch.resetStopwatch();
+            logicstopwatch.startStopwatch();
+            String url = "https://sudoku.com/";
+            loadWeb(R.layout.web_loader, url);
         });
 
         Button button4 = findViewById(R.id.button4);
-        button4.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                stratstopwatch.resetStopwatch();
-                stratstopwatch.startStopwatch();
-                String url = "https://www.chess.com/";
-                loadWeb(savedInstanceState, R.layout.web_loader, url);
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                //startActivity(intent);
-            }
+        button4.setOnClickListener(v -> {
+            stratstopwatch.resetStopwatch();
+            stratstopwatch.startStopwatch();
+            String url = "https://www.chess.com/";
+            loadWeb(R.layout.web_loader, url);
         });
 
         Button moveToStats = findViewById(R.id.moveToStats);
-        moveToStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onStats(savedInstanceState);
-            }
-        });
+        moveToStats.setOnClickListener(v -> onStats());
 
         Button moveToSettings = findViewById(R.id.moveToSettings);
-        moveToSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSettings(savedInstanceState);
-            }
-        });
+        moveToSettings.setOnClickListener(v -> onSettings(savedInstanceState));
     }
-   
+
     //loads embedded websites
     //numerous functions to prevent errors with loading in websites
     //javascript enabled to handle difficulties with websites
-    protected void loadWeb(Bundle savedInstanceState, int web, String url) {
+    protected void loadWeb(int web, String url) {
         isHome=false;
         setContentView(web);
 
@@ -245,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String makeMessage() {
         //make an arraylist of inspirational and positive messages
-        ArrayList<String> messages = new ArrayList<String>();
+        ArrayList<String> messages = new ArrayList<>();
         messages.add("Believe you can and you're halfway there.");
         messages.add("The only way to do great work is to love what you do.");
         messages.add("Success is not final, failure is not fatal: It is the courage to continue that counts.");
@@ -264,22 +228,19 @@ public class MainActivity extends AppCompatActivity {
         return messages.get(index);
     }
 
-    protected void onStats(Bundle savedInstanceState){
+    protected void onStats(){
         isHome=false;
         //super.onCreate(savedInstanceState);
 
         setContentView(R.layout.stats);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        TextView minuteView = findViewById(R.id.minutes_view);
 
         float stratminutes =  sharedPreferences.getFloat("time1", 0);//stratstopwatch.getMinutes();
         float logicminutes =  sharedPreferences.getFloat("time2", 0);//logicstopwatch.getMinutes();
         float patternminutes = sharedPreferences.getFloat("time3", 0);//patternstopwatch.getMinutes();
 
 
-        minuteView.setText(String.valueOf(stratminutes));
+        //minuteView.setText(String.valueOf(stratminutes));
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
@@ -291,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         textView2.setText(skillName2+": "+logicminutes+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
-        TextView textView3 = (TextView) findViewById(R.id.text_view_id3);
+        TextView textView3 = findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
 
 
@@ -307,20 +268,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button reset = findViewById(R.id.reset);
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putString("username", "");
-                editor.commit();
-                onStart(savedInstanceState);
-            }
+        reset.setOnClickListener(v -> {
+            editor.putString("username", "");
+            editor.commit();
+            onStart(savedInstanceState);
         });
     }
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
-    }
-    public String getName(){
-        return name;
     }
 
 }
