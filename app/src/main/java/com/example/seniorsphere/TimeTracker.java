@@ -4,7 +4,6 @@ import android.os.Looper;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-//keeps track of seconds and if the stopwatch is running
 public class TimeTracker extends AppCompatActivity{
     private int seconds = 0;
     private boolean running = false;
@@ -21,9 +20,9 @@ public class TimeTracker extends AppCompatActivity{
         }
     };
 
-
-
-    //starts running the stopwatch
+    /*
+    *starts running the stopwatch
+    */
     public void startStopwatch() {
         if (!running) {
             running = true;
@@ -31,20 +30,27 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
-    //stops running the stopwatch
+    /*
+    *stops running the stopwatch
+    */
     public void stopStopwatch() {
         running = false;
         wasRunning = false;
     }
 
-    //resets the stopwatch; stops running and sets seconds to 0
+    /*
+    *resumes the stopwatch
+    *stops running and seconds are set to 0
+    */
     public void resetStopwatch() {
         running = false;
         wasRunning = false;
         seconds = 0;
     }
 
-    //saves the state of a stopwatch
+    /*
+    *saves the state of the stopwatch
+    */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -53,7 +59,9 @@ public class TimeTracker extends AppCompatActivity{
         outState.putBoolean("wasRunning", wasRunning);
     }
 
-    //restores the state of an activity
+    /*
+    *restores the state of an activity
+    */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -65,7 +73,9 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
-    //pauses stopwatch
+    /*
+    *pauses the stopwatch
+    */
     @Override
     protected void onPause() {
         super.onPause();
@@ -74,7 +84,9 @@ public class TimeTracker extends AppCompatActivity{
     }
 
     @Override
-    //resumes stopwatch
+    /*
+    *resumes the stopwatch
+    */
     protected void onResume() {
         super.onResume();
         if (wasRunning) {
@@ -82,19 +94,28 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
-    //returns the number of minutes that are currently tracked by the stopwatch
+    /*
+    *returns the number of minutes
+    *@return minutes
+    */
     public int getMinutes(){
         int minutes = seconds/60;
         return minutes;
     }
 
-    //returns the number of hours that are currently tracked by the stopwatch
+    /*
+    *returns the number of hours 
+    *@return hours
+    */
     public int getHours(){
         int hours = seconds/3600;
         return hours;
     }
 
-    //returns if the stopwatch is running or not
+    /*
+    *returns if the stopwatch is running or not
+    *@return running
+    */
     public boolean getRunning(){
         return running;
     }
