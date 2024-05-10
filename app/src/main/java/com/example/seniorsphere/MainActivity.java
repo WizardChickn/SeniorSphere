@@ -27,18 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
     Bundle savedInstanceState;
 
+    //separate stopwatches for different skills
     TimeTracker stratstopwatch = new TimeTracker();
     TimeTracker logicstopwatch = new TimeTracker();
     TimeTracker patternstopwatch = new TimeTracker();
 
     Boolean isHome = false;
 
+
     @Override
+    /*
+    *actions completed when the backpress button is clicked
+    *stops stopwatches for games that are running and records the time spent
+    */
     public void onBackPressed() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        //super.onBackPressed();
         if (isHome) super.onBackPressed();
 
         else {
@@ -63,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    *creates the user interface when the app is loaded
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         isHome=true;
@@ -70,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         onStart(savedInstanceState);
     }
+
+    /*
+    *screen shown when user first enters app
+    *asks user for their name
+    *occurs once
+    */
     protected void onStart(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -77,11 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
         isHome=true;
 
-
-
         if (name.isEmpty()){
             setContentView(R.layout.welcome_screen);
-
 
             nameInput = findViewById(R.id.nameInput);
 
@@ -101,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    *actions completed when going to home screen from welcome screen
+    *sets a new message for the user
+    *displays username
+    */
     protected void toHome(Bundle savedInstanceState) {
         isHome=false;
         setContentView(R.layout.homescreen);
@@ -111,7 +127,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         showToast("Welcome "+sharedPreferences.getString("username", "defaultUsername"));
 
-//different buttons lead to different pages
+    /*
+    *creates different buttons that lead to different websites
+    *resets and starts the stopwatch specific to the game skill when button is pressed
+    */
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(v -> {
             logicstopwatch.resetStopwatch();
@@ -151,9 +170,11 @@ public class MainActivity extends AppCompatActivity {
         moveToSettings.setOnClickListener(v -> onSettings(savedInstanceState));
     }
 
-    //loads embedded websites
-    //numerous functions to prevent errors with loading in websites
-    //javascript enabled to handle difficulties with websites
+    /*
+    *loads embedded websites
+    *numerous functions to prevent errors with loading in websites
+    *javascript enabled to handle other difficulties with websites
+    */
     protected void loadWeb(int web, String url) {
         isHome=false;
         setContentView(web);
@@ -173,23 +194,33 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setAllowFileAccess(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            /*
+            *handles errors with opening the url
+            */
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                // Handle page start
             }
 
             @Override
+            /*
+            *handles errors with closing the url
+            */
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                // Handle page finish
             }
 
             @Override
+            /*
+            *overrides any errors that would come up with implementing a website into the embed frame
+            */
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // Overrides errors
+                handler.proceed();
             }
 
             @Override
+            /*
+            *overrides if a url is not working
+            */
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
@@ -205,8 +236,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    *creates an arraylist of premade messages to display for the user
+    *random class implemented so that a different message appears every time
+    */
     public String makeMessage() {
-        //make an arraylist of inspirational and positive messages
         ArrayList<String> messages = new ArrayList<>();
         messages.add("Believe you can and you're halfway there.");
         messages.add("The only way to do great work is to love what you do.");
@@ -214,32 +248,29 @@ public class MainActivity extends AppCompatActivity {
         messages.add("The future belongs to those who believe in the beauty of their dreams.");
         messages.add("Your limitation—it's only your imagination.");
         messages.add("The best time to plant a tree was 20 years ago. The second best time is now.");
-        messages.add("Quit,don't quit... noodles, don't noodles");
+        messages.add("Quit, don't quit... noodles, don't noodles");
         messages.add("Every accomplishment starts with the decision to try.");
         messages.add("Yesterday is history, tomorrow is a mystery, today is a gift.");
 
-        //create a random thing
         Random hehe = new Random();
         //generate random number between 0 and arraylist.length - 1
         int index = hehe.nextInt(9);
 
         return messages.get(index);
     }
-
+    /*
+     *displays stats page with different skills and how much time is spent on them
+     */
     @SuppressLint("SetTextI18n")
     protected void onStats(){
         isHome=false;
-        //super.onCreate(savedInstanceState);
 
         setContentView(R.layout.stats);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
 
-        float stratminutes =  sharedPreferences.getFloat("time1", 0);//stratstopwatch.getMinutes();
-        float logicminutes =  sharedPreferences.getFloat("time2", 0);//logicstopwatch.getMinutes();
-        float patternminutes = sharedPreferences.getFloat("time3", 0);//patternstopwatch.getMinutes();
-
-
-        //minuteView.setText(String.valueOf(stratminutes));
+        float stratminutes =  sharedPreferences.getFloat("time1", 0);
+        float logicminutes =  sharedPreferences.getFloat("time2", 0);
+        float patternminutes = sharedPreferences.getFloat("time3", 0);
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
@@ -253,18 +284,18 @@ public class MainActivity extends AppCompatActivity {
         String skillName3 = StatsData.Skill3.getSkill();
         TextView textView3 = findViewById(R.id.text_view_id3);
         textView3.setText(skillName3+": "+patternminutes+ " minutes");
-
-
     }
+
+    /*
+    *goes to the settings page
+    *user data can be reset
+    */
     public void onSettings(Bundle savedInstanceState){
         isHome=false;
-        //super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
 
         Button reset = findViewById(R.id.reset);
         reset.setOnClickListener(v -> {
@@ -273,6 +304,10 @@ public class MainActivity extends AppCompatActivity {
             onStart(savedInstanceState);
         });
     }
+
+    /*
+    *shows popup message
+    */
     private void showToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
     }
