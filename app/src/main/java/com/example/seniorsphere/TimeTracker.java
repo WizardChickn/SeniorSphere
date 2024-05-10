@@ -37,7 +37,7 @@ public class TimeTracker extends AppCompatActivity{
         wasRunning = false;
     }
 
-    //resets the stopwatch
+    //resets the stopwatch; stops running and sets seconds to 0
     public void resetStopwatch() {
         running = false;
         wasRunning = false;
@@ -82,16 +82,19 @@ public class TimeTracker extends AppCompatActivity{
         }
     }
 
+    //returns the number of minutes that are currently tracked by the stopwatch
     public int getMinutes(){
         int minutes = seconds/60;
         return minutes;
     }
 
+    //returns the number of hours that are currently tracked by the stopwatch
     public int getHours(){
         int hours = seconds/3600;
         return hours;
     }
 
+    //returns if the stopwatch is running or not
     public boolean getRunning(){
         return running;
     }
