@@ -120,7 +120,7 @@ public class TimeTracker extends AppCompatActivity{
     */
     public int getTime(){
 
-        return seconds*60;
+        return seconds;
     }
 
     /*
