@@ -272,15 +272,15 @@ public class MainActivity extends AppCompatActivity {
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
         TextView textView = findViewById(R.id.minutes_view);
-        textView.setText(skillName+": "+(strat/60)+ " minutes");
+        textView.setText(skillName+": "+(int)(strat/60)+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
         TextView textView2 = findViewById(R.id.text_view_id2);
-        textView2.setText(skillName2+": "+(logic/60)+ " minutes");
+        textView2.setText(skillName2+": "+(int)(logic/60)+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
         TextView textView3 = findViewById(R.id.text_view_id3);
-        textView3.setText(skillName3+": "+(pattern/60)+ " minutes");
+        textView3.setText(skillName3+": "+(int)(pattern/60)+ " minutes");
     }
 
     /*
