@@ -50,16 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
             if (stratstopwatch.getRunning()){
                 stratstopwatch.stopStopwatch();
-                editor.putFloat("time1", sharedPreferences.getFloat("time1", 0) + stratstopwatch.getMinutes());
+                editor.putFloat("time1", sharedPreferences.getFloat("time1", 0) + stratstopwatch.getTime());
             }
             if (logicstopwatch.getRunning()){
                 logicstopwatch.stopStopwatch();
-                editor.putFloat("time2", sharedPreferences.getFloat("time2", 0)+ logicstopwatch.getMinutes());
+                editor.putFloat("time2", sharedPreferences.getFloat("time2", 0)+ logicstopwatch.getTime());
             }
-
             if (patternstopwatch.getRunning()){
                 patternstopwatch.stopStopwatch();
-                editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getMinutes());
+                editor.putFloat("time3", sharedPreferences.getFloat("time3", 0)+ patternstopwatch.getTime());
             }
 
 
@@ -268,22 +267,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.stats);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
 
-        float stratminutes =  sharedPreferences.getFloat("time1", 0);
-        float logicminutes =  sharedPreferences.getFloat("time2", 0);
-        float patternminutes = sharedPreferences.getFloat("time3", 0);
+        float strat =  sharedPreferences.getFloat("time1", 0);
+        float logic =  sharedPreferences.getFloat("time2", 0);
+        float pattern = sharedPreferences.getFloat("time3", 0);
 
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
         TextView textView = findViewById(R.id.minutes_view);
-        textView.setText(skillName+": "+stratminutes+ " minutes");
+        textView.setText(skillName+": "+(int)(strat/60)+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
         TextView textView2 = findViewById(R.id.text_view_id2);
-        textView2.setText(skillName2+": "+logicminutes+ " minutes");
+        textView2.setText(skillName2+": "+(int)(logic/60)+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
         TextView textView3 = findViewById(R.id.text_view_id3);
-        textView3.setText(skillName3+": "+patternminutes+ " minutes");
+        textView3.setText(skillName3+": "+(int)(pattern/60)+ " minutes");
     }
 
     /*

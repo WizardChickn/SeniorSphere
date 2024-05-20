@@ -2,7 +2,7 @@ package com.example.seniorsphere;
 import android.os.Handler;
 
 import android.os.Bundle;
-
+import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 /*
@@ -14,14 +14,16 @@ public class TimeTracker extends AppCompatActivity{
     private boolean running = false;
     private boolean wasRunning = false;
 
-    private final Handler handler = new Handler();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (running) {
                 seconds++;
+            } else{
+                handler.removeCallbacks(this);
             }
-            handler.postDelayed(this, 1000);
+            //handler.postDelayed(this, 1000);
         }
     };
 
@@ -41,6 +43,7 @@ public class TimeTracker extends AppCompatActivity{
     public void stopStopwatch() {
         running = false;
         wasRunning = false;
+        handler.removeCallbacks(runnable);
     }
 
     /*
@@ -51,6 +54,7 @@ public class TimeTracker extends AppCompatActivity{
         running = false;
         wasRunning = false;
         seconds = 0;
+        handler.removeCallbacks(runnable);
     }
 
     /*
@@ -86,6 +90,8 @@ public class TimeTracker extends AppCompatActivity{
         super.onPause();
         wasRunning = running;
         running = false;
+
+        handler.removeCallbacks(runnable);
     }
 
     @Override
@@ -106,6 +112,15 @@ public class TimeTracker extends AppCompatActivity{
     public int getMinutes(){
 
         return seconds/60;
+    }
+
+    /*
+    *returns the number of seconds
+    *@return seconds
+    */
+    public int getTime(){
+
+        return seconds*60;
     }
 
     /*
