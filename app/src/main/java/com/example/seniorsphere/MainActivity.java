@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     */
         Button button1 = findViewById(R.id.button1);
         button1.setOnClickListener(v -> {
-            logicstopwatch.resetStopwatch();
+
             logicstopwatch.startStopwatch();
             String url = "https://www.nytimes.com/games/wordle/index.html";
             loadWeb(R.layout.web_loader, url);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button button2 = findViewById(R.id.button2);
         button2.setOnClickListener(v -> {
-            patternstopwatch.resetStopwatch();
+
             patternstopwatch.startStopwatch();
             String url = "https://www.nytimes.com/games/connections";
             loadWeb(R.layout.web_loader, url);
@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button button3 = findViewById(R.id.button3);
         button3.setOnClickListener(v -> {
-            logicstopwatch.resetStopwatch();
             logicstopwatch.startStopwatch();
             String url = "https://sudoku.com/";
             loadWeb(R.layout.web_loader, url);
@@ -156,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button button4 = findViewById(R.id.button4);
         button4.setOnClickListener(v -> {
-            stratstopwatch.resetStopwatch();
             stratstopwatch.startStopwatch();
             String url = "https://www.chess.com/";
             loadWeb(R.layout.web_loader, url);
@@ -274,15 +272,15 @@ public class MainActivity extends AppCompatActivity {
         // displays the variables for the different skills
         String skillName = StatsData.Skill1.getSkill();
         TextView textView = findViewById(R.id.minutes_view);
-        textView.setText(skillName+": "+(int)(strat/60)+ " minutes");
+        textView.setText(skillName+": "+(strat/60)+ " minutes");
 
         String skillName2 = StatsData.Skill2.getSkill();
         TextView textView2 = findViewById(R.id.text_view_id2);
-        textView2.setText(skillName2+": "+(int)(logic/60)+ " minutes");
+        textView2.setText(skillName2+": "+(logic/60)+ " minutes");
 
         String skillName3 = StatsData.Skill3.getSkill();
         TextView textView3 = findViewById(R.id.text_view_id3);
-        textView3.setText(skillName3+": "+(int)(pattern/60)+ " minutes");
+        textView3.setText(skillName3+": "+(pattern/60)+ " minutes");
     }
 
     /*
